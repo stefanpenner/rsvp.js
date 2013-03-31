@@ -5,8 +5,6 @@ define(
     var config = __dependency1__.config;
     var EventTarget = __dependency2__.EventTarget;
 
-    var noop = function() {};
-
     var Promise = function(resolver) {
       var promise = this,
       resolved = false;
@@ -29,6 +27,18 @@ define(
         if (resolved) { return; }
         resolved = true;
         reject(promise, value);
+      };
+
+      resolvePromise._fulfill = function(fulfillment){
+        if (resolved) { return; }
+        resolved = true;
+        fulfill(promise, fulfillment);
+      };
+
+      rejectPromise._reject = function(reason){
+        if (resolved) { return; }
+        resolved = true;
+        reject(promise, reason);
       };
 
       this.on('promise:resolved', function(event) {
