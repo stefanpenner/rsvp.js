@@ -369,8 +369,6 @@ define("rsvp/promise",
     var config = __dependency1__.config;
     var EventTarget = __dependency2__.EventTarget;
 
-    var noop = function() {};
-
     var Promise = function(resolver) {
       var promise = this,
       resolved = false;
@@ -386,7 +384,12 @@ define("rsvp/promise",
       var resolvePromise = function(value) {
         if (resolved) { return; }
         resolved = true;
-        resolve(promise, value);
+
+        if (value === promise){
+          fulfill(promise, value);
+        }else {
+          resolve(promise, value);
+        }
       };
 
       var rejectPromise = function(value) {
@@ -424,7 +427,7 @@ define("rsvp/promise",
       }
 
       if (value && typeof value.then === 'function') {
-        value.then(function(value) {
+        value.then.call(value, function(value) {
           resolve(promise, value);
         }, function(error) {
           reject(promise, error);

@@ -1,4 +1,26 @@
 /*global RSVP, describe, specify, it, assert */
+
+describe("IAMCRYING", function(){
+  it("asdlkj", function(done){
+    var aDefer = new RSVP.defer(),
+    bDefer = new RSVP.defer();
+
+    aDefer.promise.then(function(a){
+      setTimeout(function(){
+        bDefer.resolve(bDefer);
+      }, 1);
+
+      return bDefer.promise;
+    });
+
+    bDefer.promise.then(function(c){
+      done();
+    })
+
+    aDefer.resolve(aDefer.promise);
+  });
+});
+
 describe("RSVP extensions", function() {
   describe("Promise constructor", function() {
     it('should exist and have length 1', function() {
@@ -802,4 +824,6 @@ describe("RSVP extensions", function() {
       });
     });
   });
+
+
 });
