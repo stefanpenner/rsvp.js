@@ -115,7 +115,12 @@ define(
     EventTarget.mixin(Promise.prototype);
 
     function resolve(promise, value) {
-      if (objectOrFunction(value) && isFunction(value.then)) {
+
+      if (promise === value) {
+        fulfill(promise, value);
+      } else if (objectOrFunction(value) && isFunction(value.toPromise) && promise === value.toPromise()) {
+        fulfill(promise, value);
+      } else if (objectOrFunction(value) && isFunction(value.then)) {
         value.then(function(val) {
           if (value !== val) {
             resolve(promise, val);

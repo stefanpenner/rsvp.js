@@ -22,6 +22,60 @@ describe("RSVP extensions", function() {
       aDefer.resolve(promiseA);
     });
   });
+
+  function PromiseEntity() {
+    this._deferred = new RSVP.defer();
+  }
+
+  PromiseEntity.prototype = {
+    then: function(){
+      var promise = this._deferred.promise;
+
+      return promise.then.apply(promise, arguments);
+    },
+
+    toPromise: function(){
+      return this._deferred.promise;
+    }
+  }
+
+  describe("self fulfillment – entityPromise", function(){
+    it("treats self fulfillment as the recursive base case", function(done){
+      var entityA, entityB;
+
+      entityA = new PromiseEntity();
+      entityB = new PromiseEntity();
+
+      entityA.then(function(a) {
+        assert.equal(entityA, a);
+        done();
+      });
+
+      entityA._deferred.resolve(entityA);
+    });
+  });
+
+  describe("entityPromise assimilation", function(){
+    it("works", function(done){
+      var entityA, entityB;
+
+      entityA = new PromiseEntity();
+      entityB = new PromiseEntity();
+
+      entityA.then(function(a) {
+        assert.equal(entityA, a);
+
+        setTimeout(function(){
+          entityB._deferred.resolve(entityB);
+        }, 1);
+
+        return entityB;
+      }).then(function(b){
+        assert.equal(entityB, b);
+        done();
+      });
+
+      entityA._deferred.resolve(entityA);
     });
   });
 
