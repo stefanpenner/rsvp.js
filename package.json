@@ -23,7 +23,8 @@
   },
   "scripts": {
     "test": "grunt test",
-    "lint": "jshint lib"
+    "lint": "jshint lib",
+    "prepublish": "grunt build"
   },
   "repository": {
     "type": "git",
