@@ -11,7 +11,7 @@ module.exports = function(grunt) {
 
   this.registerTask('tests', "Builds the test package", ['concat:deps', 'browserify:tests', 'transpile:testsAmd', 'transpile:testsCommonjs', 'buildTests:dist', 'concat:tests']);
 
-  this.registerTask('test', "Runs the tests through the command line", ['build', 'tests', 'connect', 'mocha_phantomjs']);
+  this.registerTask('test', "Runs tests through the command line using PhantomJS", ['build', 'tests', 'connect', 'mocha_phantomjs']);
 
   // Run a server. This is ideal for running the QUnit tests in the browser.
   this.registerTask('server', ['build', 'tests', 'connect', 'watch:server']);
@@ -169,10 +169,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-es6-module-transpiler');
-  grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-mocha-phantomjs');
-
-  // Multi-task for wrapping browser version
+  grunt.loadNpmTasks('grunt-mocha-test');
 
   this.registerTask('bytes', function() {
     console.log("TODO: Add a bytes-tracking task");
