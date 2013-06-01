@@ -8,6 +8,21 @@ mixin for turning objects into event targets.
 It works in node and the browser. You can get the browser build in
 `browser/rsvp.js` and `browser/rsvp.min.js`.
 
+## Building & Testing
+
+```shell
+npm install
+grunt # will build and run the headless tests
+```
+
+Alternative, to run and view the tests in the browser:
+
+```shell
+grunt server # visit http://0.0.0.0:8000/test
+```
+
+This package uses the [grunt-ember-dev](https://github.com/thomasboyt/grunt-ember-dev) package for building.
+
 ## Promises
 
 `RSVP.Promise` is an implementation of
@@ -246,7 +261,3 @@ tom.trigger("poke");
 The example will work as expected. If you mix `RSVP.EventTarget` into a
 constructor's prototype, each instance of that constructor will get its
 own callbacks.
-
-## Building & Testing
-
-This package uses the [grunt-ember-dev](https://github.com/thomasboyt/grunt-ember-dev) package for building.
